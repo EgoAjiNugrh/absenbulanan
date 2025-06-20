@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Absensi Guru Bulanan</title>
+<style>
+  body { font-family: Arial, sans-serif; padding: 20px; background: #f7f7f7; }
+  h1 { text-align: center; }
+  table { width: 100%; border-collapse: collapse; background: white; box-shadow: 0 2px 6px rgba(0,0,0,.1); }
+  th, td { border: 1px solid #ccc; padding: 8px; text-align: center; }
+  select { width: 100%; padding: 4px; }
+  .hadir { background: #d4edda; color: green; }
+  .sakit { background: #fff3cd; color: orange; }
+  .izin { background: #cce5ff; color: blue; }
+  .tanpa { background: #f8d7da; color: red; }
+  .rekap { margin-top: 20px; padding: 10px; background: #e2e3e5; font-weight: bold; }
+</style>
+</head>
+<body>
+
+<h1>Absensi Guru - Juni</h1>
+<table id="absensi">
+  <thead>
+    <tr>
+      <th>Nama</th>
+      <th>Jabatan</th>
+      <!-- Kolom tanggal 1-5 contoh -->
+      <th>1</th><th>2</th><th>3</th><th>4</th><th>5</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td contenteditable="true">Nama Guru</td>
+      <td contenteditable="true">Jabatan</td>
+      <td><select onchange="updateCell(this)"><option value="">-</option><option value="Hadir">Hadir ✅</option><option value="Sakit">Sakit 🤒</option><option value="Izin">Izin 📝</option><option value="Tanpa">Tanpa ❌</option></select></td>
+      <td><select onchange="updateCell(this)"><option value="">-</option><option value="Hadir">Hadir ✅</option><option value="Sakit">Sakit 🤒</option><option value="Izin">Izin 📝</option><option value="Tanpa">Tanpa ❌</option></select></td>
+      <td><select onchange="updateCell(this)"><option value="">-</option><option value="Hadir">Hadir ✅</option><option value="Sakit">Sakit 🤒</option><option value="Izin">Izin 📝</option><option value="Tanpa">Tanpa ❌</option></select></td>
+      <td><select onchange="updateCell(this)"><option value="">-</option><option value="Hadir">Hadir ✅</option><option value="Sakit">Sakit 🤒</option><option value="Izin">Izin 📝</option><option value="Tanpa">Tanpa ❌</option></select></td>
+      <td><select onchange="updateCell(this)"><option value="">-</option><option value="Hadir">Hadir ✅</option><option value="Sakit">Sakit 🤒</option><option value="Izin">Izin 📝</option><option value="Tanpa">Tanpa ❌</option></select></td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="rekap" id="rekap">Total Kehadiran: 0 | Persentase Kehadiran: 0%</div>
+
+<script>
+function updateCell(select) {
+  const cell = select.parentElement;
+  cell.className = '';
+  let value = select.value;
+  if (value === 'Hadir') cell.classList.add('hadir');
+  if (value === 'Sakit') cell.classList.add('sakit');
+  if (value === 'Izin') cell.classList.add('izin');
+  if (value === 'Tanpa') cell.classList.add('tanpa');
+  hitungRekap();
+}
+
+function hitungRekap() {
+  const selects = document.querySelectorAll('td select');
+  let hadirCount = 0;
+  let total = 0;
+  selects.forEach(s => {
+    if (s.value) {
+      total++;
+      if (s.value === 'Hadir') hadirCount++;
+    }
+  });
+  const persen = total ? ((hadirCount / total) * 100).toFixed(1) : 0;
+  document.getElementById('rekap').textContent = `Total Kehadiran: ${hadirCount} | Persentase Kehadiran: ${persen}%`;
+}
+</script>
+
+</body>
+</html>
